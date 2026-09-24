@@ -1,0 +1,7 @@
+sku,name,category,qty,cost,price,supplier
+A100,Rice 5kg,grocery,40,1500,1850,S1
+A101,Dhal 1kg,grocery,8,420,520,S1
+B200,Soap,household,120,90,130,S2
+B201,Shampoo,household,5,650,890,S2
+C300,Milk powder 400g,dairy,15,1100,1290,S3
+C301,Yoghurt,dairy,0,70,100,S3
