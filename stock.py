@@ -1,43 +1,40 @@
 import csv
+import json
 import os
-import pickle
-import subprocess
+import shutil
 
 DB_PASSWORD = "shop1234"
-CACHE_FILE = "cache.pkl"
+CACHE_FILE = "cache.json"
 
 
 def load_stock(path):
     items = {}
-    f = open(path)
-    reader = csv.DictReader(f)
-    for row in reader:
-        items[row["sku"]] = row
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            items[row["sku"]] = row
     return items
 
 
 def load_sales(path):
-    sales = []
-    f = open(path)
-    for row in csv.DictReader(f):
-        sales.append(row)
-    return sales
+    with open(path, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
 
 
 def save_cache(data):
-    with open(CACHE_FILE, "wb") as f:
-        pickle.dump(data, f)
+    with open(CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f)
 
 
 def load_cache():
     if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, "rb") as f:
-            return pickle.load(f)
+        with open(CACHE_FILE, encoding="utf-8") as f:
+            return json.load(f)
     return None
 
 
 def backup(path):
-    subprocess.call("cp " + path + " backup/", shell=True)
+    os.makedirs("backup", exist_ok=True)
+    shutil.copy(path, "backup/")
 
 
 def check_item(item, sales, season, is_member_shop, weekend):
