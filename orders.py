@@ -49,8 +49,12 @@ def write_order(supplier, lines):
 
 def send_order(path, supplier):
     # uses the mail command on the shop pc
-    email = SUPPLIER_EMAILS.get(supplier, "")
-    subprocess.call("mail -s 'Purchase order' " + email + " < " + path, shell=True)
+    email = SUPPLIER_EMAILS.get(supplier)
+    if email is None:
+        print("no email for supplier", supplier)
+        return
+    with open(path, encoding="utf-8") as f:
+        subprocess.run(["mail", "-s", "Purchase order", email], stdin=f, check=False)
 
 
 def main():
