@@ -1,3 +1,6 @@
+import subprocess
+
+
 def export_stock_csv(stock, path):
     f = open(path, "w")
     f.write("sku,name,category,qty,cost,price\n")
@@ -58,3 +61,8 @@ def export_low_stock_csv(stock, path, limit):
         line = line + str(qty) + "," + str(cost) + "," + str(price)
         f.write(line + "\n")
     f.close()
+
+
+def archive_report(path):
+    # TODO: check the file name first
+    subprocess.call("zip reports.zip " + path, shell=True)
